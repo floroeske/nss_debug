@@ -1,10 +1,10 @@
-# nss_debug
+# Modified nss_debug to do localsinglename lookups
 
 ## Description
 
-I wrote this small module for the Name Service Switch to get a better idea
-of how/and when various functions were being called. This was in prepartion
-for a more complex NSS module I intended to write.
+A small module for the NSS (Name Service Switch) to lookup hostnames as singlenames with mdns. Probably not advised to do so. But I think it's convenient. More of an experiment.
+
+This NSS module just takes 'myhostname' and does a new look-up for 'myhostname.local'.
 
 ## Installation
 
@@ -15,16 +15,11 @@ sudo make install
 
 ## Configuration
 
-Once the module is installed on your system you just have to modify the
-/etc/nsswitch.conf for the appropriate service you want debug printing
-on. The service name is debug and currently supports the passwd, group,
-shadow, and hosts databases.
+Add debug to your hosts entry in your /etc/nsswitch.conf file.
 
 e.g. /etc/nsswitch.conf
 ```
-passwd:         debug compat
-group:          debug compat
-shadow:         debug compat
-
-hosts:          debug files dns
+hosts:          files debug mdns4_minimal [NOTFOUND=return] dns
 ```
+
+The debug modules for group, passwd and shadow are still there. See the original repo on how to configure them.
